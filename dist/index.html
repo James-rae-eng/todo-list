@@ -6,8 +6,65 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
   <body>
-    <div id="content">
+    <div class="sidebar">
+      <h1>To-Do</h1>
 
+      <div class="panel">
+        <div>
+          <div id="categories">
+            <h2>Categories:</h2>
+            <h3>Home</h3>
+          </div>
+          <button id="newCategory">+</button>
+        </div>
+        <h4>Created by James</h4>
+      </div>
+      
+    </div>
+
+    <div id="list">
+      <div class="listTitle">
+          <h5 id="currentCategory">Home</h5>
+          <button id="addTodo">+</button>
+      </div>
+
+      <form id="todoForm" action="" method="post" style="display: none;">
+        <div>
+            <label class="text-label">Title:</label>
+            <input id="title" name="title" type="text">
+        </div>
+
+        <div>
+            <label class="text-label">Description:</label>
+            <textarea id="description" name="description" rows="5"></textarea>
+        </div>
+
+        <div>
+            <label class="text-label">Due date:</label>
+            <input id="dueDate" name="dueDate" type="date">
+        </div>
+
+        <fieldset>
+            <legend>Priority:</legend>
+            <div>
+              <input type="radio" id="one" name="priority" value='1' checked/>
+              <label for="one">1</label>
+        
+              <input type="radio" id="two" name="priority" value='2' />
+              <label for="two">2</label>
+
+              <input type="radio" id="three" name="priority" value='3' />
+              <label for="three">3</label>
+            </div>
+          </fieldset>
+
+        <button type="submit">submit</button>
+    </form>
+
+      <div id="list">
+        <p>list here</p>
+        <p>list here</p>
+      </div>
     </div>
     
     <script src="main.js"></script>

@@ -1,0 +1,53 @@
+html {
+    min-height: 100vh;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: row;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.sidebar {
+    border-right: 1px solid black;
+    padding: 20px 15px 0 5px;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 0;
+}
+
+h2, h3, h4 {
+    margin: 0;
+}
+
+.panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 90%;
+}
+
+#newCategory {
+    margin-top: 20px;
+}
+
+#categories {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+#list {
+    width: 100%;
+    padding: 10px;
+}
+
+.listTitle {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
