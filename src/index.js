@@ -1,56 +1,28 @@
 import './style.css';
 import Category from './category';
 import Todo from './todo';
+import { listDisplay, createHome, displayCategory } from './display-controller';
 
 // Initialise variables
-const form = document.getElementById('todoForm');
+const todoForm = document.getElementById('todoForm');
+const categoryForm = document.getElementById('categoryForm');
 
-// create default home category, create active category instance, add switching
-const home = new Category('home');
+// create initial default home category
+const home = new Category('Home');
 let activeCategory = home;
+createHome(home);
+
+// create catagories list and add default home category
+const categories = [];
+categories.push(home);
+
+const switchCategoryName = () => {
+  document.getElementById('currentCategory').innerHTML = activeCategory.title;
+};
 
 const switchCategory = (newCategory) => {
   activeCategory = newCategory;
 };
-
-// Display list of all todos in catagory on screen
-function listDisplay() {
-  const list = document.getElementById('list');
-  list.innerHTML = '';
-
-  // iterate through catagory
-  activeCategory.list.forEach((element) => {
-    const todo = document.createElement('div');
-    todo.id = 'todo';
-
-    const todoHead = document.createElement('div');
-    todoHead.id = 'todoHead';
-
-    const expanded = document.createElement('div');
-    expanded.id = 'expanded';
-    expanded.style.display = 'none';
-
-    const title = document.createElement('p');
-    title.innerHTML = element.title;
-    todoHead.appendChild(title);
-    const date = document.createElement('p');
-    date.innerHTML = element.formatDate();
-    todoHead.appendChild(date);
-    const priority = document.createElement('p');
-    priority.innerHTML = element.priority;
-    todoHead.appendChild(priority);
-
-    todo.appendChild(todoHead);
-
-    const desciption = document.createElement('p');
-    desciption.innerHTML = element.description;
-    expanded.appendChild(desciption);
-
-    todo.appendChild(expanded);
-
-    list.appendChild(todo);
-  });
-}
 
 // Expand todo to include desciption when clicked
 const list = document.getElementById('list');
@@ -66,7 +38,7 @@ list.addEventListener('click', (e) => {
 });
 
 // Create new todo
-form.addEventListener('submit', (event) => {
+todoForm.addEventListener('submit', (event) => {
   event.preventDefault();
   const formValue = event.target.elements;
 
@@ -80,18 +52,59 @@ form.addEventListener('submit', (event) => {
   // Push Obj to category array.
   activeCategory.list.push(todo);
   // Reset form fields
-  form.reset();
+  todoForm.reset();
   // Hide form
-  form.style.display = 'none';
+  todoForm.style.display = 'none';
   // Update the list of todos
-  listDisplay();
+  listDisplay(activeCategory);
 });
 
 const addTodo = document.getElementById('addTodo');
 addTodo.addEventListener('click', () => {
-  if (form.style.display === 'none') {
-    form.style.display = 'block';
+  if (todoForm.style.display === 'none') {
+    todoForm.style.display = 'block';
   } else {
-    form.style.display = 'none';
+    todoForm.style.display = 'none';
+  }
+});
+
+// Add new category
+categoryForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+  const formValue = event.target.elements;
+
+  const category = new Category(
+    formValue.title.value,
+  );
+
+  // Push new category into categories list
+  categories.push(category);
+  // Reset form fields
+  categoryForm.reset();
+  // Hide form
+  categoryForm.style.display = 'none';
+  // Display new category
+  displayCategory(category);
+});
+
+const addCategory = document.getElementById('addCategory');
+addCategory.addEventListener('click', () => {
+  if (categoryForm.style.display === 'none') {
+    categoryForm.style.display = 'block';
+  } else {
+    categoryForm.style.display = 'none';
+  }
+});
+
+// allow clicking & switching of categrory
+const catList = document.getElementById('categories');
+catList.addEventListener('click', (e) => {
+  if (e.target && e.target.matches('#category')) {
+    const selectedCategory = categories.find((category) => category.title === e.target.innerHTML);
+    if (selectedCategory !== activeCategory) {
+      switchCategory(selectedCategory);
+      switchCategoryName();
+      listDisplay(activeCategory);
+    }
   }
 });

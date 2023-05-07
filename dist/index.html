@@ -13,18 +13,20 @@
         <div>
           <div id="categories">
             <h2>Categories:</h2>
-            <h3>Home</h3>
           </div>
-          <button id="newCategory">+</button>
+          <form id="categoryForm" action="" method="post" style="display: none;">
+            <input id="title" name="title" type="text">
+            <button type="submit">submit</button>            
+          </form>
+          <button id="addCategory">+</button>
         </div>
-        <h4>Created by James</h4>
+        <h4>See source code</h4>
       </div>
-      
     </div>
 
     <div id="main">
       <div class="listTitle">
-          <h5 id="currentCategory">Home</h5>
+          <h5 id="currentCategory"> </h5>
           <button id="addTodo">+</button>
       </div>
 
@@ -62,8 +64,6 @@
     </form>
 
       <div id="list">
-        <p>list here</p>
-        <p>list here</p>
       </div>
     </div>
     
