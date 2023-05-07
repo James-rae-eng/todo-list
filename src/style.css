@@ -41,7 +41,7 @@ h2, h3, h4 {
     gap: 20px;
 }
 
-#list {
+#main {
     width: 100%;
     padding: 10px;
 }
@@ -50,4 +50,14 @@ h2, h3, h4 {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+}
+
+#todo {
+    border: 1px solid blue;
+}
+
+#todoHead {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
