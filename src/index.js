@@ -24,9 +24,10 @@ const switchCategory = (newCategory) => {
   activeCategory = newCategory;
 };
 
-// Expand todo to include desciption when clicked
+// Add event listener to parts of list items not yet created (when list is empty)
 const list = document.getElementById('list');
 list.addEventListener('click', (e) => {
+  // Expand todo to include desciption when clicked
   if (e.target && e.target.matches('#todoHead')) {
     const expanded = e.target.nextElementSibling;
     if (expanded.style.display === 'none') {
@@ -35,6 +36,28 @@ list.addEventListener('click', (e) => {
       expanded.style.display = 'none';
     }
   }
+  // Edit todo when edit button clicked
+  if (e.target && e.target.matches('#edit')) {
+    const index = e.target.parentNode.parentNode.dataset.indexNumber;
+    // Set todo as a variable
+    const todo = activeCategory.list[index];
+    // open & fill form with todo values
+    todoForm.style.display = 'block';
+    todoForm.title.value = todo.title;
+    todoForm.description.value = todo.description;
+    todoForm.dueDate.value = todo.dueDate;
+    todoForm.priority.value = todo.priority;
+    // Give form a data attribute of the index so the form submit can handle it
+    todoForm.dataset.indexNumber = index;
+  }
+  // Delete todo when delete button clicked
+  if (e.target && e.target.matches('#delete')) {
+    const index = e.target.parentNode.parentNode.dataset.indexNumber;
+    // Set todo as a variable
+    activeCategory.list.splice(index, 1);
+    // Update the list of todos
+    listDisplay(activeCategory);
+  }
 });
 
 // Create new todo
@@ -42,15 +65,25 @@ todoForm.addEventListener('submit', (event) => {
   event.preventDefault();
   const formValue = event.target.elements;
 
-  const todo = new Todo(
-    formValue.title.value,
-    formValue.description.value,
-    formValue.dueDate.value,
-    formValue.priority.value,
-  );
+  if (todoForm.dataset.indexNumber === 'none') {
+    const todo = new Todo(
+      formValue.title.value,
+      formValue.description.value,
+      formValue.dueDate.value,
+      formValue.priority.value,
+    );
+    // Push Obj to category array.
+    activeCategory.list.push(todo);
+  } else {
+    // Edit existing todo item
+    const todo = activeCategory.list[todoForm.dataset.indexNumber];
+    todo.title = formValue.title.value;
+    todo.description = formValue.description.value;
+    todo.dueDate = formValue.dueDate.value;
+    todo.priority = formValue.priority.value;
+    todoForm.dataset.indexNumber = 'none';
+  }
 
-  // Push Obj to category array.
-  activeCategory.list.push(todo);
   // Reset form fields
   todoForm.reset();
   // Hide form
@@ -59,6 +92,7 @@ todoForm.addEventListener('submit', (event) => {
   listDisplay(activeCategory);
 });
 
+// Add a new todo item
 const addTodo = document.getElementById('addTodo');
 addTodo.addEventListener('click', () => {
   if (todoForm.style.display === 'none') {

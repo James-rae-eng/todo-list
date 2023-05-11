@@ -5,9 +5,10 @@ const listDisplay = (activeCategory) => {
 
   // iterate through catagory
   if (activeCategory.list !== undefined || activeCategory.list.length !== 0) {
-    activeCategory.list.forEach((element) => {
+    activeCategory.list.forEach((element, index) => {
       const todo = document.createElement('div');
       todo.id = 'todo';
+      todo.dataset.indexNumber = index;
 
       const todoHead = document.createElement('div');
       todoHead.id = 'todoHead';
@@ -30,7 +31,17 @@ const listDisplay = (activeCategory) => {
 
       const desciption = document.createElement('p');
       desciption.innerHTML = element.description;
+
+      const editBtn = document.createElement('button');
+      editBtn.innerHTML = 'Edit';
+      editBtn.id = 'edit';
+      const deleteBtn = document.createElement('button');
+      deleteBtn.innerHTML = 'Delete';
+      deleteBtn.id = 'delete';
+
       expanded.appendChild(desciption);
+      expanded.appendChild(editBtn);
+      expanded.appendChild(deleteBtn);
 
       todo.appendChild(expanded);
 

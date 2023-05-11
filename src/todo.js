@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import format from 'date-fns/format';
 
 class Todo {
