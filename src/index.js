@@ -102,23 +102,46 @@ addTodo.addEventListener('click', () => {
   }
 });
 
-// Add new category
+// Add new/ edit category
 categoryForm.addEventListener('submit', (event) => {
   event.preventDefault();
   const formValue = event.target.elements;
 
-  const category = new Category(
-    formValue.title.value,
-  );
+  // If form is blank and there is a category to edit, delete the category
+  if (formValue.title.value === '' && categories.some((cat) => cat.edit === true)) {
+    const selectedCategory = categories.find((cat) => cat.edit === true);
+    const index = categories.indexOf(selectedCategory) + 1;
+    // Remove the div of the selected category
+    const category = document.getElementById('categories').children[index];
+    document.getElementById('categories').removeChild(category);
+    // Delete the category
+    categories.splice((index - 1));
+  } else if (formValue.title.value === '') { // If the form is empty and theres no category, close form
+    categoryForm.style.display = 'none';
+  } else if (categories.some((cat) => cat.edit === true)) { // Edit category
+    // Find the category to edit & store it's index (+1 to use with div.children)
+    const selectedCategory = categories.find((cat) => cat.edit === true);
+    const index = categories.indexOf(selectedCategory) + 1;
+    // Update the div to reflect the new category title
+    document.getElementById('categories').children[index].innerHTML = formValue.title.value;
+    // Update the category object title & clear its edit status
+    selectedCategory.title = formValue.title.value;
+    selectedCategory.edit = false;
+  } else {
+    // Create new category
+    const category = new Category(
+      formValue.title.value,
+    );
+    // Push new category into categories list
+    categories.push(category);
+    // Display new category
+    displayCategory(category);
+  }
 
-  // Push new category into categories list
-  categories.push(category);
   // Reset form fields
   categoryForm.reset();
   // Hide form
   categoryForm.style.display = 'none';
-  // Display new category
-  displayCategory(category);
 });
 
 const addCategory = document.getElementById('addCategory');
@@ -133,12 +156,22 @@ addCategory.addEventListener('click', () => {
 // allow clicking & switching of categrory
 const catList = document.getElementById('categories');
 catList.addEventListener('click', (e) => {
-  if (e.target && e.target.matches('#category')) {
+  if (e.target && e.target.matches('.category')) {
     const selectedCategory = categories.find((category) => category.title === e.target.innerHTML);
     if (selectedCategory !== activeCategory) {
       switchCategory(selectedCategory);
       switchCategoryName();
       listDisplay(activeCategory);
     }
+  }
+});
+
+// Allow renaming of a category
+catList.addEventListener('dblclick', (e) => {
+  if (e.target && e.target.matches('.category')) {
+    const selectedCategory = categories.find((category) => category.title === e.target.innerHTML);
+    selectedCategory.edit = true;
+    categoryForm.style.display = 'block';
+    categoryForm.title.value = selectedCategory.title;
   }
 });

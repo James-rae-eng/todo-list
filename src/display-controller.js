@@ -54,7 +54,7 @@ const listDisplay = (activeCategory) => {
 const createHome = (home) => {
   const cat = document.getElementById('categories');
   const newCategory = document.createElement('h3');
-  newCategory.id = 'category';
+  newCategory.className = 'category';
   newCategory.innerHTML = home.title;
 
   cat.appendChild(newCategory);
@@ -66,7 +66,7 @@ const createHome = (home) => {
 const displayCategory = (category) => {
   const categories = document.getElementById('categories');
   const newCategory = document.createElement('h3');
-  newCategory.id = 'category';
+  newCategory.className = 'category';
   newCategory.innerHTML = category.title;
 
   categories.appendChild(newCategory);
