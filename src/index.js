@@ -7,14 +7,10 @@ import { listDisplay, createHome, displayCategory } from './display-controller';
 const todoForm = document.getElementById('todoForm');
 const categoryForm = document.getElementById('categoryForm');
 
-// create initial default home category
-const home = new Category('Home');
-let activeCategory = home;
-createHome(home);
-
 // create catagories list and add default home category
-const categories = [];
-categories.push(home);
+const categories = localStorage.getItem('categories') ? JSON.parse(localStorage.getItem('categories')) : [];
+
+let activeCategory = categories[0];
 
 const switchCategoryName = () => {
   document.getElementById('currentCategory').innerHTML = activeCategory.title;
@@ -23,6 +19,23 @@ const switchCategoryName = () => {
 const switchCategory = (newCategory) => {
   activeCategory = newCategory;
 };
+
+// Add home category if there's no local storage
+const addHome = () => {
+  if (categories.length === 0) {
+    const home = new Category('Home');
+    categories.push(home);
+    createHome(home);
+    localStorage.setItem('categories', JSON.stringify(categories));
+  }
+};
+
+// Set up initial conditions for first/ fresh load of the page
+categories.forEach((category) => displayCategory(category));
+addHome();
+listDisplay(activeCategory);
+document.getElementById('currentCategory').innerHTML = activeCategory.title;
+console.log(JSON.parse(localStorage.getItem('categories')));
 
 // When editing a todo fill the form and prepare it for a form submit
 const editTodoFill = (e) => {
@@ -79,6 +92,8 @@ const createTodo = (formValue) => {
   todoForm.style.display = 'none';
   // Update the list of todos
   listDisplay(activeCategory);
+  // Update localstorage
+  localStorage.setItem('categories', JSON.stringify(categories));
 };
 
 // Add new/ edit existing/ delete category
@@ -90,8 +105,9 @@ const createCategory = (formValue) => {
     // Remove the div of the selected category
     const category = document.getElementById('categories').children[index];
     document.getElementById('categories').removeChild(category);
-    // Delete the category
-    categories.splice((index - 1));
+    // Delete the category & reset localstorage with the new array
+    categories.splice((index - 1), 1);
+    localStorage.setItem('categories', JSON.stringify(categories));
   } else if (formValue.title.value === '') { // If the form is empty and theres no category, close form
     categoryForm.style.display = 'none';
   } else if (categories.some((cat) => cat.edit === true)) { // Edit category
@@ -108,8 +124,10 @@ const createCategory = (formValue) => {
     const category = new Category(
       formValue.title.value,
     );
-      // Push new category into categories list
+    // Push new category into categories list
     categories.push(category);
+    // Add to local storage
+    localStorage.setItem('categories', JSON.stringify(categories));
     // Display new category
     displayCategory(category);
   }

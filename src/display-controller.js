@@ -1,10 +1,15 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
+import format from 'date-fns/format';
+
+const formatDate = (date) => format(new Date(date), 'dd/MM/yyyy');
+
 // Display list of all todos in catagory on screen
 const listDisplay = (activeCategory) => {
   const list = document.getElementById('list');
   list.innerHTML = '';
 
   // iterate through catagory
-  if (activeCategory.list !== undefined || activeCategory.list.length !== 0) {
+  if (activeCategory.list.length !== 0 || activeCategory.list !== undefined) {
     activeCategory.list.forEach((element, index) => {
       const todo = document.createElement('div');
       todo.id = 'todo';
@@ -21,7 +26,7 @@ const listDisplay = (activeCategory) => {
       title.innerHTML = element.title;
       todoHead.appendChild(title);
       const date = document.createElement('p');
-      date.innerHTML = element.formatDate();
+      date.innerHTML = formatDate(element.dueDate);
       todoHead.appendChild(date);
       const priority = document.createElement('p');
       priority.innerHTML = element.priority;
@@ -58,8 +63,6 @@ const createHome = (home) => {
   newCategory.innerHTML = home.title;
 
   cat.appendChild(newCategory);
-
-  document.getElementById('currentCategory').innerHTML = home.title;
 };
 
 // display category
