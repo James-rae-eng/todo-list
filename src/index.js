@@ -24,19 +24,8 @@ const switchCategory = (newCategory) => {
   activeCategory = newCategory;
 };
 
-// Add event listener to parts of list items not yet created (when list is empty)
-const list = document.getElementById('list');
-list.addEventListener('click', (e) => {
-  // Expand todo to include desciption when clicked
-  if (e.target && e.target.matches('#todoHead')) {
-    const expanded = e.target.nextElementSibling;
-    if (expanded.style.display === 'none') {
-      expanded.style.display = 'flex';
-    } else {
-      expanded.style.display = 'none';
-    }
-  }
-  // Edit todo when edit button clicked
+// When editing a todo fill the form and prepare it for a form submit
+const editTodoFill = (e) => {
   if (e.target && e.target.matches('#edit')) {
     const index = e.target.parentNode.parentNode.dataset.indexNumber;
     // Set todo as a variable
@@ -50,7 +39,10 @@ list.addEventListener('click', (e) => {
     // Give form a data attribute of the index so the form submit can handle it
     todoForm.dataset.indexNumber = index;
   }
-  // Delete todo when delete button clicked
+};
+
+// Delete todo
+const deleteTodo = (e) => {
   if (e.target && e.target.matches('#delete')) {
     const index = e.target.parentNode.parentNode.dataset.indexNumber;
     // Set todo as a variable
@@ -58,13 +50,10 @@ list.addEventListener('click', (e) => {
     // Update the list of todos
     listDisplay(activeCategory);
   }
-});
+};
 
-// Create new todo
-todoForm.addEventListener('submit', (event) => {
-  event.preventDefault();
-  const formValue = event.target.elements;
-
+// Create a new todo/ edit existing one
+const createTodo = (formValue) => {
   if (todoForm.dataset.indexNumber === 'none') {
     const todo = new Todo(
       formValue.title.value,
@@ -90,23 +79,10 @@ todoForm.addEventListener('submit', (event) => {
   todoForm.style.display = 'none';
   // Update the list of todos
   listDisplay(activeCategory);
-});
+};
 
-// Add a new todo item
-const addTodo = document.getElementById('addTodo');
-addTodo.addEventListener('click', () => {
-  if (todoForm.style.display === 'none') {
-    todoForm.style.display = 'block';
-  } else {
-    todoForm.style.display = 'none';
-  }
-});
-
-// Add new/ edit category
-categoryForm.addEventListener('submit', (event) => {
-  event.preventDefault();
-  const formValue = event.target.elements;
-
+// Add new/ edit existing/ delete category
+const createCategory = (formValue) => {
   // If form is blank and there is a category to edit, delete the category
   if (formValue.title.value === '' && categories.some((cat) => cat.edit === true)) {
     const selectedCategory = categories.find((cat) => cat.edit === true);
@@ -132,7 +108,7 @@ categoryForm.addEventListener('submit', (event) => {
     const category = new Category(
       formValue.title.value,
     );
-    // Push new category into categories list
+      // Push new category into categories list
     categories.push(category);
     // Display new category
     displayCategory(category);
@@ -142,8 +118,54 @@ categoryForm.addEventListener('submit', (event) => {
   categoryForm.reset();
   // Hide form
   categoryForm.style.display = 'none';
+};
+
+// Event listener on todo list, ( made like this so that it works when todo's not yet created)
+const list = document.getElementById('list');
+list.addEventListener('click', (e) => {
+  // Expand todo to include desciption when clicked
+  if (e.target && e.target.matches('#todoHead')) {
+    const expanded = e.target.nextElementSibling;
+    if (expanded.style.display === 'none') {
+      expanded.style.display = 'flex';
+    } else {
+      expanded.style.display = 'none';
+    }
+  }
+  // Edit todo when edit button clicked
+  editTodoFill(e);
+
+  // Delete todo when delete button clicked
+  deleteTodo(e);
 });
 
+// Handle click to create new todo
+todoForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+  // Capture form details & send to create todo function
+  const formValue = event.target.elements;
+  createTodo(formValue);
+});
+
+// Add a new todo item
+const addTodo = document.getElementById('addTodo');
+addTodo.addEventListener('click', () => {
+  if (todoForm.style.display === 'none') {
+    todoForm.style.display = 'block';
+  } else {
+    todoForm.style.display = 'none';
+  }
+});
+
+// Add new/ edit category
+categoryForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+  // Capture form details & send to create category function
+  const formValue = event.target.elements;
+  createCategory(formValue);
+});
+
+// Open new category form when button clicked
 const addCategory = document.getElementById('addCategory');
 addCategory.addEventListener('click', () => {
   if (categoryForm.style.display === 'none') {
