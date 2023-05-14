@@ -11,16 +11,18 @@ body {
 }
 
 .sidebar {
-    border-right: 1px solid black;
-    padding: 20px 15px 0 5px;
+    padding: 20px 0 0 5px;
+    width: 10%;
+    min-width: 120px;
 }
 
 h1 {
     text-align: center;
     margin-top: 0;
+    padding-right: 5px;
 }
 
-h2, h3, h4 {
+h2, h3, h4, h5 {
     margin: 0;
 }
 
@@ -31,33 +33,145 @@ h2, h3, h4 {
     min-height: 90%;
 }
 
-#newCategory {
+#addCategory {
     margin-top: 20px;
+    float: right;
 }
 
 #categories {
     display: flex;
     flex-direction: column;
+    align-items: flex-end;
     gap: 20px;
+}
+
+#categoryForm {
+    margin-top: 20px;
+    text-align: right;
+}
+
+#categoryForm > input {
+    width: 50%;
+}
+
+.category {
+    border: 2px solid rgb(138, 138, 194);
+    padding: 10px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
 }
 
 #main {
     width: 100%;
-    padding: 10px;
+    background-color: rgb(243, 243, 243);
+    display: flex;
+    flex-direction: column;    
+    align-items: center;
 }
 
 .listTitle {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+    padding: 20px;
+    width: 100%;
 }
 
-#todo {
-    border: 1px solid blue;
+#list {
+    width: 100%;
 }
 
-#todoHead {
+.todo {
+    padding: 5px;
+    margin: 15px;
+    border: 1px solid rgb(138, 138, 194);
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 3px 3px rgb(138, 138, 194);
+}
+
+.todoHead {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+}
+
+.expanded {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.expandButtons {
+    display: flex;
+    gap: 10px;
+    margin-left: 20px;
+}
+
+.edit, .delete {
+    border-radius: 5px;
+}
+
+#addTodo, #addCategory  {
+    font-size: x-large;
+}
+#addTodo:hover, #addCategory:hover  {
+    background-color: rgb(98, 146, 98);
+}
+
+#addCategory {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+#addTodo {
+    border-radius: 15px;
+    padding: 0 10px 0 10px;
+}
+
+#todoForm {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    width: 60%;
+    border-radius: 5px;
+    background-color: white;
+    box-shadow: 0 0 10px darkgray;
+}
+
+.title, .description {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+}
+
+fieldset {
+    text-align: center;
+}
+
+.todoSubmit {
+    padding: 8px 14px 8px 14px;
+    border-radius: 3px;
+}
+
+button {
+    background-color: white;
+}
+
+button:hover {
+    background-color: rgb(138, 138, 194);
+    color: white;
+}
+
+#active {
+    background-color: rgb(138, 138, 194);
+    color: white;
+    padding-right: 30px;
+}
+
+.iconGithub {
+    width: 40px;
+    align-self: center;
 }

@@ -12,31 +12,32 @@
       <div class="panel">
         <div>
           <div id="categories">
-            <h2>Categories:</h2>
           </div>
           <form id="categoryForm" action="" method="post" style="display: none;">
             <input id="title" name="title" type="text">
-            <button type="submit">submit</button>            
+            <button type="submit">></button>            
           </form>
           <button id="addCategory">+</button>
         </div>
-        <h4>See source code</h4>
+        <a href="https://github.com/James-rae-eng" target="_blank" class="iconGithub">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" />
+        </a>
       </div>
     </div>
 
     <div id="main">
       <div class="listTitle">
-          <h5 id="currentCategory"> </h5>
+          <h2 id="currentCategory"> </h2>
           <button id="addTodo">+</button>
       </div>
 
       <form id="todoForm" action="" method="post" style="display: none;" data-index-number="none">
-        <div>
+        <div class="title">
             <label class="text-label">Title:</label>
             <input id="title" name="title" type="text">
         </div>
 
-        <div>
+        <div class="description">
             <label class="text-label">Description:</label>
             <textarea id="description" name="description" rows="5"></textarea>
         </div>
@@ -47,20 +48,20 @@
         </div>
 
         <fieldset>
-            <legend>Priority:</legend>
-            <div>
-              <input type="radio" id="one" name="priority" value='1' checked/>
-              <label for="one">1</label>
+          <legend>Priority:</legend>
+          <div>
+            <input type="radio" id="low" name="priority" value='Low' checked/>
+            <label for="low">Low</label>
         
-              <input type="radio" id="two" name="priority" value='2' />
-              <label for="two">2</label>
+            <input type="radio" id="med" name="priority" value='Med' />
+            <label for="med">Med</label>
 
-              <input type="radio" id="three" name="priority" value='3' />
-              <label for="three">3</label>
-            </div>
-          </fieldset>
+            <input type="radio" id="high" name="priority" value='High' />
+            <label for="high">High</label>
+          </div>
+        </fieldset>
 
-        <button type="submit">submit</button>
+        <button type="submit" class="todoSubmit">Submit</button>
     </form>
 
       <div id="list">

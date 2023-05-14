@@ -12,14 +12,14 @@ const listDisplay = (activeCategory) => {
   if (activeCategory.list.length !== 0 || activeCategory.list !== undefined) {
     activeCategory.list.forEach((element, index) => {
       const todo = document.createElement('div');
-      todo.id = 'todo';
+      todo.className = 'todo';
       todo.dataset.indexNumber = index;
 
       const todoHead = document.createElement('div');
-      todoHead.id = 'todoHead';
+      todoHead.className = 'todoHead';
 
       const expanded = document.createElement('div');
-      expanded.id = 'expanded';
+      expanded.className = 'expanded';
       expanded.style.display = 'none';
 
       const title = document.createElement('p');
@@ -37,16 +37,20 @@ const listDisplay = (activeCategory) => {
       const desciption = document.createElement('p');
       desciption.innerHTML = element.description;
 
+      const expandButtons = document.createElement('div');
+      expandButtons.className = 'expandButtons';
       const editBtn = document.createElement('button');
       editBtn.innerHTML = 'Edit';
-      editBtn.id = 'edit';
+      editBtn.className = 'edit';
       const deleteBtn = document.createElement('button');
       deleteBtn.innerHTML = 'Delete';
-      deleteBtn.id = 'delete';
+      deleteBtn.className = 'delete';
 
       expanded.appendChild(desciption);
-      expanded.appendChild(editBtn);
-      expanded.appendChild(deleteBtn);
+
+      expanded.appendChild(expandButtons);
+      expandButtons.appendChild(editBtn);
+      expandButtons.appendChild(deleteBtn);
 
       todo.appendChild(expanded);
 

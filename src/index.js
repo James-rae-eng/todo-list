@@ -3,6 +3,8 @@ import Category from './category';
 import Todo from './todo';
 import { listDisplay, createHome, displayCategory } from './display-controller';
 
+// localStorage.clear();
+
 // Initialise variables
 const todoForm = document.getElementById('todoForm');
 const categoryForm = document.getElementById('categoryForm');
@@ -12,8 +14,21 @@ const categories = localStorage.getItem('categories') ? JSON.parse(localStorage.
 
 let activeCategory = categories[0];
 
+const styleCategory = () => {
+  // Set an active id on the active category to use for styling
+  const allCategories = document.getElementsByClassName('category');
+  Array.from(allCategories).forEach((category) => {
+    category.id = ''; // eslint-disable-line no-param-reassign
+    if (category.innerHTML === activeCategory.title) {
+      category.id = 'active'; // eslint-disable-line no-param-reassign
+    }
+  });
+};
+
 const switchCategoryName = () => {
+  // Update title above todo list
   document.getElementById('currentCategory').innerHTML = activeCategory.title;
+  styleCategory();
 };
 
 const switchCategory = (newCategory) => {
@@ -35,12 +50,12 @@ categories.forEach((category) => displayCategory(category));
 addHome();
 listDisplay(activeCategory);
 document.getElementById('currentCategory').innerHTML = activeCategory.title;
-console.log(JSON.parse(localStorage.getItem('categories')));
+styleCategory();
 
 // When editing a todo fill the form and prepare it for a form submit
 const editTodoFill = (e) => {
-  if (e.target && e.target.matches('#edit')) {
-    const index = e.target.parentNode.parentNode.dataset.indexNumber;
+  if (e.target && e.target.matches('.edit')) {
+    const index = e.target.parentNode.parentNode.parentNode.dataset.indexNumber;
     // Set todo as a variable
     const todo = activeCategory.list[index];
     // open & fill form with todo values
@@ -56,12 +71,14 @@ const editTodoFill = (e) => {
 
 // Delete todo
 const deleteTodo = (e) => {
-  if (e.target && e.target.matches('#delete')) {
+  if (e.target && e.target.matches('.delete')) {
     const index = e.target.parentNode.parentNode.dataset.indexNumber;
     // Set todo as a variable
     activeCategory.list.splice(index, 1);
     // Update the list of todos
     listDisplay(activeCategory);
+    // Update localstorage
+    localStorage.setItem('categories', JSON.stringify(categories));
   }
 };
 
@@ -102,12 +119,12 @@ const createCategory = (formValue) => {
   if (formValue.title.value === '' && categories.some((cat) => cat.edit === true)) {
     const selectedCategory = categories.find((cat) => cat.edit === true);
     const index = categories.indexOf(selectedCategory) + 1;
-    // Remove the div of the selected category
-    const category = document.getElementById('categories').children[index];
-    document.getElementById('categories').removeChild(category);
     // Delete the category & reset localstorage with the new array
     categories.splice((index - 1), 1);
     localStorage.setItem('categories', JSON.stringify(categories));
+    // Remove the div of the selected category
+    document.getElementById('categories').innerHTML = '';
+    categories.forEach((category) => displayCategory(category));
   } else if (formValue.title.value === '') { // If the form is empty and theres no category, close form
     categoryForm.style.display = 'none';
   } else if (categories.some((cat) => cat.edit === true)) { // Edit category
@@ -138,11 +155,11 @@ const createCategory = (formValue) => {
   categoryForm.style.display = 'none';
 };
 
-// Event listener on todo list, ( made like this so that it works when todo's not yet created)
+// Event listener on todo list, (made like this so that it works when todo's not yet created)
 const list = document.getElementById('list');
 list.addEventListener('click', (e) => {
   // Expand todo to include desciption when clicked
-  if (e.target && e.target.matches('#todoHead')) {
+  if (e.target && e.target.matches('.todoHead, .todoHead > *')) { // Fix this to only target expanded
     const expanded = e.target.nextElementSibling;
     if (expanded.style.display === 'none') {
       expanded.style.display = 'flex';
@@ -165,11 +182,11 @@ todoForm.addEventListener('submit', (event) => {
   createTodo(formValue);
 });
 
-// Add a new todo item
+// Open form to add a new todo item
 const addTodo = document.getElementById('addTodo');
 addTodo.addEventListener('click', () => {
   if (todoForm.style.display === 'none') {
-    todoForm.style.display = 'block';
+    todoForm.style.display = 'flex';
   } else {
     todoForm.style.display = 'none';
   }
