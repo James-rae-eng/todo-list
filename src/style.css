@@ -11,7 +11,7 @@ body {
 }
 
 .sidebar {
-    padding: 20px 0 0 5px;
+    padding: 20px 0 60px 5px;
     width: 10%;
     min-width: 120px;
 }
@@ -24,6 +24,10 @@ h1 {
 
 h2, h3, h4, h5 {
     margin: 0;
+}
+
+h3 {
+    color: rgb(126, 126, 126);
 }
 
 .panel {
@@ -55,7 +59,7 @@ h2, h3, h4, h5 {
 }
 
 .category {
-    border: 2px solid rgb(138, 138, 194);
+    border: 2px solid rgb(128, 202, 245);
     padding: 10px;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
@@ -84,10 +88,10 @@ h2, h3, h4, h5 {
 .todo {
     padding: 5px;
     margin: 15px;
-    border: 1px solid rgb(138, 138, 194);
+    border: 1px solid rgb(128, 202, 245);
     background-color: white;
     border-radius: 10px;
-    box-shadow: 0 3px 3px rgb(138, 138, 194);
+    box-shadow: 0 3px 3px rgb(128, 202, 245);
 }
 
 .todoHead {
@@ -161,12 +165,13 @@ button {
 }
 
 button:hover {
-    background-color: rgb(138, 138, 194);
+    background-color: rgb(128, 202, 245);
     color: white;
 }
 
 #active {
-    background-color: rgb(138, 138, 194);
+    background-color: rgb(128, 202, 245);
+    border-color: rgb(179, 179, 179);
     color: white;
     padding-right: 30px;
 }
@@ -174,4 +179,11 @@ button:hover {
 .iconGithub {
     width: 40px;
     align-self: center;
+}
+
+#main-icon {
+    width: 80px;
+    align-self: center;
+    padding-left: 25%;
+    margin-bottom: 20px;
 }

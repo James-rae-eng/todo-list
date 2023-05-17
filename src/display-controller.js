@@ -1,5 +1,9 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import format from 'date-fns/format';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import '@fortawesome/fontawesome-free/js/fontawesome';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import '@fortawesome/fontawesome-free/js/solid';
 
 const formatDate = (date) => format(new Date(date), 'dd/MM/yyyy');
 
@@ -40,10 +44,10 @@ const listDisplay = (activeCategory) => {
       const expandButtons = document.createElement('div');
       expandButtons.className = 'expandButtons';
       const editBtn = document.createElement('button');
-      editBtn.innerHTML = 'Edit';
+      editBtn.innerHTML = '<i class="fa-solid fa-pen-to-square"></i>';
       editBtn.className = 'edit';
       const deleteBtn = document.createElement('button');
-      deleteBtn.innerHTML = 'Delete';
+      deleteBtn.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
       deleteBtn.className = 'delete';
 
       expanded.appendChild(desciption);
