@@ -5,7 +5,7 @@ import '@fortawesome/fontawesome-free/js/fontawesome';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import '@fortawesome/fontawesome-free/js/solid';
 
-const formatDate = (date) => format(new Date(date), 'dd/MM/yyyy');
+const formatDate = (date) => format(new Date(date), 'eee do MMM'); // 'dd/MM/yyyy'
 
 // Display list of all todos in catagory on screen
 const listDisplay = (activeCategory) => {
@@ -28,13 +28,18 @@ const listDisplay = (activeCategory) => {
 
       const title = document.createElement('p');
       title.innerHTML = element.title;
+      title.className = 'title';
       todoHead.appendChild(title);
+
+      const container = document.createElement('div');
+      container.className = 'extra';
       const date = document.createElement('p');
       date.innerHTML = formatDate(element.dueDate);
-      todoHead.appendChild(date);
+      container.appendChild(date);
       const priority = document.createElement('p');
       priority.innerHTML = element.priority;
-      todoHead.appendChild(priority);
+      container.appendChild(priority);
+      todoHead.appendChild(container);
 
       todo.appendChild(todoHead);
 

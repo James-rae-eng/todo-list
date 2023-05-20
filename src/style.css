@@ -65,6 +65,12 @@ h3 {
     border-bottom-left-radius: 10px;
 }
 
+.category:hover {
+    background-color: rgb(128, 202, 245);
+    border-color: rgb(179, 179, 179);
+    color: white;
+}
+
 #main {
     width: 100%;
     background-color: rgb(243, 243, 243);
@@ -100,6 +106,12 @@ h3 {
     justify-content: space-between;
 }
 
+.extra {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+}
+
 .expanded {
     display: flex;
     justify-content: space-between;
@@ -115,6 +127,10 @@ h3 {
 .edit, .delete {
     border-radius: 5px;
 }
+
+[data-prefix='fas'] {
+    pointer-events: none;
+} 
 
 #addTodo, #addCategory  {
     font-size: x-large;
@@ -145,12 +161,6 @@ h3 {
     box-shadow: 0 0 10px darkgray;
 }
 
-.title, .description {
-    display: flex;
-    flex-direction: column;
-    width: 90%;
-}
-
 fieldset {
     text-align: center;
 }
@@ -179,6 +189,10 @@ button:hover {
 .iconGithub {
     width: 40px;
     align-self: center;
+}
+
+.iconGithub:hover {
+    width: 50px;
 }
 
 #main-icon {

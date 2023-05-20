@@ -72,7 +72,7 @@ const editTodoFill = (e) => {
 // Delete todo
 const deleteTodo = (e) => {
   if (e.target && e.target.matches('.delete')) {
-    const index = e.target.parentNode.parentNode.dataset.indexNumber;
+    const index = e.target.parentNode.parentNode.parentNode.dataset.indexNumber;
     // Set todo as a variable
     activeCategory.list.splice(index, 1);
     // Update the list of todos
@@ -84,11 +84,17 @@ const deleteTodo = (e) => {
 
 // Create a new todo/ edit existing one
 const createTodo = (formValue) => {
+  let date = '';
+  if (formValue.dueDate.value === '') {
+    date = new Date();
+  } else {
+    date = formValue.dueDate.value;
+  }
   if (todoForm.dataset.indexNumber === 'none') {
     const todo = new Todo(
       formValue.title.value,
       formValue.description.value,
-      formValue.dueDate.value,
+      date,
       formValue.priority.value,
     );
     // Push Obj to category array.
@@ -98,7 +104,7 @@ const createTodo = (formValue) => {
     const todo = activeCategory.list[todoForm.dataset.indexNumber];
     todo.title = formValue.title.value;
     todo.description = formValue.description.value;
-    todo.dueDate = formValue.dueDate.value;
+    todo.dueDate = date;
     todo.priority = formValue.priority.value;
     todoForm.dataset.indexNumber = 'none';
   }
@@ -128,11 +134,10 @@ const createCategory = (formValue) => {
   } else if (formValue.title.value === '') { // If the form is empty and theres no category, close form
     categoryForm.style.display = 'none';
   } else if (categories.some((cat) => cat.edit === true)) { // Edit category
-    // Find the category to edit & store it's index (+1 to use with div.children)
+    // Find the category to edit
     const selectedCategory = categories.find((cat) => cat.edit === true);
-    const index = categories.indexOf(selectedCategory) + 1;
     // Update the div to reflect the new category title
-    document.getElementById('categories').children[index].innerHTML = formValue.title.value;
+    document.getElementById('active').innerHTML = formValue.title.value;
     // Update the category object title & clear its edit status
     selectedCategory.title = formValue.title.value;
     selectedCategory.edit = false;
@@ -141,7 +146,7 @@ const createCategory = (formValue) => {
     const category = new Category(
       formValue.title.value,
     );
-    // Push new category into categories list
+      // Push new category into categories list
     categories.push(category);
     // Add to local storage
     localStorage.setItem('categories', JSON.stringify(categories));
@@ -151,21 +156,30 @@ const createCategory = (formValue) => {
 
   // Reset form fields
   categoryForm.reset();
+  document.getElementById('title').style.color = 'black';
   // Hide form
   categoryForm.style.display = 'none';
+};
+
+// Toggle expand on todo
+const toggleExpand = (expanded) => {
+  if (expanded.style.display === 'none') {
+    expanded.style.display = 'flex'; // eslint-disable-line no-param-reassign
+  } else {
+    expanded.style.display = 'none'; // eslint-disable-line no-param-reassign
+  }
 };
 
 // Event listener on todo list, (made like this so that it works when todo's not yet created)
 const list = document.getElementById('list');
 list.addEventListener('click', (e) => {
   // Expand todo to include desciption when clicked
-  if (e.target && e.target.matches('.todoHead, .todoHead > *')) { // Fix this to only target expanded
+  if (e.target && e.target.matches('.todoHead')) {
     const expanded = e.target.nextElementSibling;
-    if (expanded.style.display === 'none') {
-      expanded.style.display = 'flex';
-    } else {
-      expanded.style.display = 'none';
-    }
+    toggleExpand(expanded);
+  } else if (e.target && e.target.matches('.title')) {
+    const titleExpand = e.target.parentNode.nextElementSibling;
+    toggleExpand(titleExpand);
   }
   // Edit todo when edit button clicked
   editTodoFill(e);
@@ -197,7 +211,12 @@ categoryForm.addEventListener('submit', (event) => {
   event.preventDefault();
   // Capture form details & send to create category function
   const formValue = event.target.elements;
-  createCategory(formValue);
+  // Error catch if category name already exists
+  if (categories.find((el) => el.title === formValue.title.value)) {
+    document.getElementById('title').style.color = 'red';
+  } else {
+    createCategory(formValue);
+  }
 });
 
 // Open new category form when button clicked
@@ -225,6 +244,7 @@ catList.addEventListener('click', (e) => {
 
 // Allow renaming of a category
 catList.addEventListener('dblclick', (e) => {
+  document.getElementById('title').style.color = 'black';
   if (e.target && e.target.matches('.category')) {
     const selectedCategory = categories.find((category) => category.title === e.target.innerHTML);
     selectedCategory.edit = true;
